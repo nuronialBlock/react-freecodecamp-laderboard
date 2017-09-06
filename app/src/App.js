@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, Navbar } from 'react-bootstrap';
 import axios from 'axios';
+import Avatar from 'react-avatar';
 
 import Leaderboard from './Leaderboard';
 
@@ -28,11 +29,21 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    axios.get('https://fcctop100.herokuapp.com/api/fccusers/top/recent')
+    axios.get(thirtyDaysURL)
       .then(res => {
-        const data = res.data;
-        const posts = res.data.map(obj => obj);
-        this.setState({ data: posts});
+        let num = 0;
+        const data = res.data.map(obj => {
+            num = num + 1;
+            return (
+              <tr key={obj.username}>
+                <td>{num}</td>
+                <td><Avatar size={50} src={obj.img} />  {obj.username}</td>
+                <td>{obj.alltime}</td>
+                <td>{obj.recent}</td>
+              </tr>
+            );
+        });
+        this.setState({ data });
       });
   }
 
@@ -42,10 +53,11 @@ export default class App extends Component {
         <Row>
           <Col lg={12}>
             <CustomNavbar name={'FreeCodeCamp Leaderboard'} />
-            {this.state.data}
           </Col>
         </Row>
-        <Leaderboard />
+        <Leaderboard
+          data={this.state.data}
+        />
       </Grid>
     );
   }

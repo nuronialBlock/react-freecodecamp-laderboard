@@ -12,8 +12,8 @@ export default class Leaderboard extends Component {
     return (
       <Grid>
         <Row>
-          <Col lg={2}></Col>
-          <Col lg={8}>
+          <Col lg={1}></Col>
+          <Col lg={10}>
             <Panel header='Leaderboard'>
               <Table striped bordered condensed hover>
                 <thead>
@@ -25,7 +25,7 @@ export default class Leaderboard extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.props.value}
+                  {this.props.data}
                 </tbody>
 
               </Table>
