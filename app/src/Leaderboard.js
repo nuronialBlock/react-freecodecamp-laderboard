@@ -6,6 +6,17 @@ import CustomNavbar from './CustomNavbar';
 export default class Leaderboard extends Component {
   constructor(props) {
     super(props);
+
+    this.sortByPast30 = this.sortByPast30.bind(this);
+    this.sortByAllTime = this.sortByAllTime.bind(this);
+  }
+
+  sortByPast30(e) {
+    this.props.onSortByPast30(e);
+  }
+
+  sortByAllTime(e) {
+    this.props.onSortByAllTime(e);
   }
 
   render() {
@@ -20,14 +31,17 @@ export default class Leaderboard extends Component {
                   <tr>
                     <th>#</th>
                     <th>Camper Name</th>
-                    <th>Points in past 30 Days</th>
-                    <th>All time points</th>
+                    <th onClick={this.sortByPast30}>
+                        Points in past 30 Days
+                    </th>
+                    <th onClick={this.sortByAllTime}>
+                        All time points
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {this.props.data}
                 </tbody>
-
               </Table>
             </Panel>
           </Col>

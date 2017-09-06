@@ -26,6 +26,9 @@ export default class App extends Component {
     this.state = {
       data: []
     }
+
+    this.handleSort30 = this.handleSort30.bind(this);
+    this.handleSortAllTime = this.handleSortAllTime.bind(this);
   }
 
   componentDidMount() {
@@ -38,8 +41,46 @@ export default class App extends Component {
               <tr key={obj.username}>
                 <td>{num}</td>
                 <td><Avatar size={50} src={obj.img} />  {obj.username}</td>
-                <td>{obj.alltime}</td>
                 <td>{obj.recent}</td>
+                <td>{obj.alltime}</td>
+              </tr>
+            );
+        });
+        this.setState({ data });
+      });
+  }
+
+  handleSort30() {
+    axios.get(thirtyDaysURL)
+      .then(res => {
+        let num = 0;
+        const data = res.data.map(obj => {
+            num = num + 1;
+            return (
+              <tr key={obj.username}>
+                <td>{num}</td>
+                <td><Avatar size={50} src={obj.img} />  {obj.username}</td>
+                <td>{obj.recent}</td>
+                <td>{obj.alltime}</td>
+              </tr>
+            );
+        });
+        this.setState({ data });
+      });
+  }
+
+  handleSortAllTime() {
+    axios.get(allTimeURL)
+      .then(res => {
+        let num = 0;
+        const data = res.data.map(obj => {
+            num = num + 1;
+            return (
+              <tr key={obj.username}>
+                <td>{num}</td>
+                <td><Avatar size={50} src={obj.img} />  {obj.username}</td>
+                <td>{obj.recent}</td>
+                <td>{obj.alltime}</td>
               </tr>
             );
         });
@@ -57,6 +98,8 @@ export default class App extends Component {
         </Row>
         <Leaderboard
           data={this.state.data}
+          onSortByPast30={this.handleSort30}
+          onSortByAllTime={this.handleSortAllTime}
         />
       </Grid>
     );
